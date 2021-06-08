@@ -9,12 +9,8 @@ app.use(express.json());
 const Joi = require('joi');
 const uri = process.env.uri;
 const jwt_val = require('./jwt_validation');
-const field_validation = require("./validation");
-const sentmail = require('./reg_email');
-
-var bodyParser = require(‘body-parser’)
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}))
+const field_validation = require("./validation")
+const sentmail = require('./reg_email')
 
 
 //Create User API
