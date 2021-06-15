@@ -9,7 +9,7 @@ const report = require('./generate_report');
 
 //Create User API
 app.post('/api/user',jwt_val, (req, res) => {
-  router.creat_user(req,res);
+  router.creat_user(req,res)
 });
 
 //Add course
@@ -42,7 +42,7 @@ app.post('/api/login',(req,res) => {
 })
 
 //Generate Report of existing Users
-app.get('/api/report',jwt_val ,(req, res) => {
+app.get('/api/reports',jwt_val ,(req, res) => {
   report.generate_user_report(req,res);
 });
 
