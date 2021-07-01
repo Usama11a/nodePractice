@@ -10,6 +10,7 @@ const uri = process.env.uri;
 const field_validation = require("./validation")
 const db_con = require('./server');
 const { func } = require('joi');
+const sentmail = require('./reg_email')
 
 //Create User API
 function creat_user(req,res) {
@@ -20,12 +21,21 @@ function creat_user(req,res) {
       const date_modified = null;
       const date_created = field_validation.date_created_cal();
       const query = {User_Info: req.body, date_created: date_created, date_modified: date_modified}
-      const insert_date = db_con.insertData(query,skip_email)
-      if (insert_date)
-      res.json(query);
-      else
-      res.json({msg: "Data not inserted for some reason"})
-    }
+      MongoClient.connect(uri, (err, db) =>{
+        if (err) throw err;
+        var dbo = db.db("myFirstDatabase");
+        dbo.collection("Test").insertOne(query, (err, result)=>{
+          if (err) throw err;
+          if (skip_email){
+            sentmail.send_reg_emails(req.body.email,req.body.email_alias);
+            res.json(query);
+          }else{
+            res.json(query);
+          }
+    
+        });
+    });
+  }
 }
   
   //Add course
